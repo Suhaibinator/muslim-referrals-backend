@@ -12,12 +12,12 @@ import (
 var DB *gorm.DB
 
 func ConnectDatabase() {
-    var err error
-    DB, err = gorm.Open(sqlite.Open(configs.DatabasePath), &gorm.Config{})
-    if err != nil {
-        log.Fatal("Failed to connect to database:", err)
-    }
-    log.Println("Database connection successful.")
+	var err error
+	DB, err = gorm.Open(sqlite.Open(configs.DatabasePath), &gorm.Config{})
+	if err != nil {
+		log.Fatal("Failed to connect to database:", err)
+	}
+	log.Println("Database connection successful.")
 }
 
 func CloseDatabase() {
@@ -28,4 +28,3 @@ func CloseDatabase() {
 	db.Close()
 	log.Println("Database connection closed.")
 }
-

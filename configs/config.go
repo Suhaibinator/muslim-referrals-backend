@@ -7,5 +7,5 @@ import (
 var DatabasePath string
 
 func LoadConfig() {
-    DatabasePath = os.Getenv("SQLITE_DB_PATH");
+	DatabasePath = os.Getenv("SQLITE_DB_PATH")
 }
