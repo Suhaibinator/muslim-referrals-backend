@@ -23,20 +23,26 @@ jobs:
             const { owner, repo } = context.repo;
             const prAuthor = pr.user.login;
 
-            // Get the list of reviews
-            const { data: reviews } = await github.pulls.listReviews({
-              owner,
-              repo,
-              pull_number: pr.number,
-            });
+            let reviews = [];
+            try {
+              // Attempt to get reviews
+              reviews = await github.pulls.listReviews({
+                owner: owner,
+                repo: repo,
+                pull_number: pr.number,
+              });
+            } catch (error) {
+              // If fetching reviews fails, handle the error
+              console.error('Failed to fetch reviews:', error.message);
+            }
 
             // Check if there is at least one approval from a different user than the PR author
-            const approvedByOther = reviews.some(review => review.state === 'APPROVED' && review.user.login !== prAuthor);
+            const approvedByOther = reviews.data ? reviews.data.some(review => review.state === 'APPROVED' && review.user.login !== prAuthor) : false;
 
             // Create a check run with neutral status if not approved by a non-author
             await github.checks.create({
-              owner,
-              repo,
+              owner: owner,
+              repo: repo,
               name: 'Approval Check',
               head_sha: pr.head.sha,
               status: 'completed',
