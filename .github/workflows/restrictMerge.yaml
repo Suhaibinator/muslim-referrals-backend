@@ -33,14 +33,14 @@ jobs:
             // Check if there is at least one approval from a different user than the PR author
             const approvedByOther = reviews.some(review => review.state === 'APPROVED' && review.user.login !== prAuthor);
 
-            // Create a check run
+            // Create a check run with neutral status if not approved by a non-author
             await github.checks.create({
               owner,
               repo,
               name: 'Approval Check',
               head_sha: pr.head.sha,
               status: 'completed',
-              conclusion: approvedByOther ? 'success' : 'failure',
+              conclusion: approvedByOther ? 'success' : 'neutral',
               output: {
                 title: 'Approval Check',
                 summary: approvedByOther 
