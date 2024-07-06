@@ -12,6 +12,7 @@ const (
 )
 
 type Status string
+
 const (
 	ReferralRequested Status = "Referral Requested"
 	ReferredForJob    Status = "Referred for Job"
@@ -21,20 +22,18 @@ const (
 )
 
 type ReferralRequest struct {
-	Id           uint         `gorm:"primary_key" json:"id"`
-	JobTitle     string       `gorm:"not null" json:"jobTitle"`
-	JobLinks     []string     `gorm:"not null" json:"jobLinks"`
-	Description  string       `gorm:"not null" json:"description"`
-	Location     string       `json:"location"`
-	ReferralType ReferralType `gorm:"not null" json:"referralType"`
-	ReferrerId   *uint        `json:"referrerId"`
-	Referrer     *Referrer    `gorm:"constraint:OnUpdate:CASCADE,OnDelete:SET NULL" json:"referrer"`
-	UserId       uint         `json:"userId"`
-	User         User         `gorm:"constraint:OnUpdate:CASCADE,OnDelete:SET NULL" json:"user"`
-	CompanyId    uint         `json:"companyId"`
-	Company      Company      `gorm:"constraint:OnUpdate:CASCADE,OnDelete:SET NULL" json:"company"`
-	Status       Status       `gorm:"not null" json:"status"`
-	CreatedAt    time.Time    `gorm:"not null;default:now()" json:"createdAt"`
-	UpdatedAt    time.Time    `gorm:"not null;default:now()" json:"updatedAt"`
-	DeletedAt    *time.Time   `json:"deletedAt"`
+	Id            uint         `gorm:"primary_key" json:"id"`
+	JobTitle      string       `gorm:"not null" json:"jobTitle"`
+	JobLinks      []string     `gorm:"not null" json:"jobLinks"`
+	Description   string       `gorm:"not null" json:"description"`
+	Location      string       `json:"location"`
+	ReferralType  ReferralType `gorm:"not null" json:"referralType"`
+	ReferrerId    *uint        `json:"referrerId"`
+	Referrer      *Referrer    `gorm:"constraint:OnUpdate:CASCADE,OnDelete:SET NULL" json:"referrer"`
+	CompanyId     uint         `json:"companyId"`
+	Company       Company      `gorm:"constraint:OnUpdate:CASCADE,OnDelete:SET NULL" json:"company"`
+	currentStatus Status       `gorm:"not null" json:"currentStatus"`
+	CreatedAt     time.Time    `gorm:"not null;default:now()" json:"createdAt"`
+	UpdatedAt     time.Time    `gorm:"not null;default:now()" json:"updatedAt"`
+	DeletedAt     *time.Time   `json:"deletedAt"`
 }
