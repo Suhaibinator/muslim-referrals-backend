@@ -11,6 +11,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Check out the repository
+        uses: actions/checkout@v2
+
       - name: Check if PR is approved by non-author
         id: check-approval
         uses: actions/github-script@v6
@@ -30,9 +33,18 @@ jobs:
             // Check if there is at least one approval from a different user than the PR author
             const approvedByOther = reviews.some(review => review.state === 'APPROVED' && review.user.login !== prAuthor);
 
-            // Set output for next step
-            return { result: approvedByOther };
-
-      - name: Fail if PR is not approved by non-author
-        if: steps.check-approval.outputs.result == 'false'
-        run: exit 1
+            // Create a check run
+            await github.checks.create({
+              owner,
+              repo,
+              name: 'Approval Check',
+              head_sha: pr.head.sha,
+              status: 'completed',
+              conclusion: approvedByOther ? 'success' : 'failure',
+              output: {
+                title: 'Approval Check',
+                summary: approvedByOther 
+                  ? 'PR is approved by a non-author.' 
+                  : 'PR is not approved by a non-author.',
+              },
+            });
