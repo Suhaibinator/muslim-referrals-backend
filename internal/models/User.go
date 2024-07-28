@@ -7,7 +7,7 @@ type User struct {
 	FullName    string     `gorm:"not null" json:"fullName"`
 	Email       string     `gorm:"not null" json:"email"`
 	PhoneNumber string     `json:"phoneNumber"`
-	ResumeID    uint       `json:"resumeId"`
+	ResumeUrl   string     `json:"resumeUrl"`
 	LinkedIn    *string    `json:"linkedIn,omitempty"`
 	Github      *string    `json:"github,omitempty"`
 	Website     *string    `json:"website,omitempty"`
