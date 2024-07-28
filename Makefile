@@ -6,18 +6,22 @@ MIGRATIONS_DIR = internal/migrations
 
 # Create a new migration file using goose command
 create-migration:
-	goose -dir $(MIGRATIONS_DIR) create $(filter-out $@,$(MAKECMDGOALS)) sql
+	atlas migrate diff --env gorm
 
 # Set the command to run goose
 GOOSE_CMD = goose -dir $(MIGRATIONS_DIR) sqlite3 $(SQLITE_DB_PATH)
 
+# Display the migration status
+status:
+	$(GOOSE_CMD) status
+
 # Apply all pending migrations
 up:
-	$(GOOSE_CMD) up
+	atlas migrate apply --env gorm
 
 # Rollback the last migration
 down:
-	$(GOOSE_CMD) down
+	atlas migrate down --env gorm
 
 # Rollback all migrations
 down-to-zero:
