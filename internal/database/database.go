@@ -3,7 +3,6 @@ package database
 import (
 	"log"
 	"muslim-referrals-backend/config"
-	"muslim-referrals-backend/internal/models"
 
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
@@ -27,17 +26,4 @@ func CloseDatabase() {
 	}
 	db.Close()
 	log.Println("Database connection closed.")
-}
-
-func MigrateDatabase() {
-	err := DB.AutoMigrate(
-		&models.Company{},
-		&models.User{},
-		&models.Candidate{},
-		&models.Referrer{},
-	)
-	if err != nil {
-		log.Fatal("Failed to migrate database:", err)
-	}
-	log.Println("Database migration successful.")
 }
