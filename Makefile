@@ -22,7 +22,6 @@ reset:
 
 # Setup database (create it if not exists, useful for local development)
 setup-db:
-	atlas db create --env gorm
 	atlas schema apply --env gorm
 
 inspect:
