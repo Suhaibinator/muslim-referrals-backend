@@ -27,3 +27,6 @@ go.work.sum
 
 # database
 muslim_referrals.db
+
+# Binary
+muslim-referrals-backend
