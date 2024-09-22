@@ -248,6 +248,7 @@
       }
     ]
     ```
+
 - **Get Referral Requests by Company**
 
   - **Endpoint:** `/referrer/referral_requests/company/{company_id}`
@@ -367,8 +368,6 @@ The `CandidateViewReferralRequest` object represents a referral request from the
 - `referrer` (`CandidateViewCandidate`): Information about the referrer.
 - `status` (string): The current status of the referral request (e.g., `"Pending"`, `"Approved"`, `"Rejected"`).
 
----
-
 - **Create Referral Request**
 
   - **Endpoint:** `/candidate/referral_request/create`
@@ -389,8 +388,6 @@ The `CandidateViewReferralRequest` object represents a referral request from the
     }
     ```
 
----
-
 - **Update Referral Request**
 
   - **Endpoint:** `/candidate/referral_request/update`
@@ -403,8 +400,6 @@ The `CandidateViewReferralRequest` object represents a referral request from the
       - **HTTP 401 Unauthorized:** Authentication failed or user not authorized.
       - **HTTP 404 Not Found:** The referral request does not exist or is not associated with the candidate.
       - **HTTP 500 Internal Server Error:** An unexpected error occurred on the server.
-
----
 
 - **Delete Referral Request**
 
@@ -420,8 +415,6 @@ The `CandidateViewReferralRequest` object represents a referral request from the
       - **HTTP 404 Not Found:** The referral request does not exist or is not associated with the candidate.
       - **HTTP 500 Internal Server Error:** An unexpected error occurred on the server.
 
----
-
 - **Get All Referral Requests**
 
   - **Endpoint:** `/candidate/referral_request/get/all`
@@ -432,8 +425,6 @@ The `CandidateViewReferralRequest` object represents a referral request from the
     - **Error:**
       - **HTTP 401 Unauthorized:** Authentication failed or user not authorized.
       - **HTTP 500 Internal Server Error:** An unexpected error occurred on the server.
-
----
 
 - **Get Specific Referral Request**
 
@@ -448,5 +439,3 @@ The `CandidateViewReferralRequest` object represents a referral request from the
       - **HTTP 401 Unauthorized:** Authentication failed or user not authorized.
       - **HTTP 404 Not Found:** The referral request does not exist or is not associated with the candidate.
       - **HTTP 500 Internal Server Error:** An unexpected error occurred on the server.
-
----
