@@ -248,3 +248,203 @@
       }
     ]
     ```
+- **Get Referral Requests by Company**
+
+  - **Endpoint:** `/referrer/referral_requests/company/{company_id}`
+  - **Method:** `GET`
+  - **Description:** Retrieves all referral requests for a specific company associated with the authenticated referrer.
+  - **URL Parameters:**
+    - `company_id` (integer): The ID of the company.
+  - **Response:**
+    - **Success:** HTTP 200 OK with a list of referral requests for the specified company.
+    - **Error:**
+      - **HTTP 401 Unauthorized:** Authentication failed or user not authorized.
+      - **HTTP 404 Not Found:** The specified company does not exist or is not associated with the referrer.
+      - **HTTP 500 Internal Server Error:** An unexpected error occurred on the server.
+  - **Response Body Example:**
+
+    ```json
+    [
+      {
+        "id": 103,
+        "candidate": {
+          "firstName": "Michael",
+          "lastName": "Brown",
+          "workExperience": 4,
+          "resumeUrl": "https://resumes.com/michaelbrown.pdf"
+        },
+        "company_id": 303,
+        "company": {
+          "id": 303,
+          "name": "TechCorp",
+          "domains": ["techcorp.com"]
+        },
+        "job_title": "Data Scientist",
+        "job_links": [
+          "https://techcorp.com/careers/data-scientist"
+        ],
+        "description": "Experienced in machine learning and data analysis.",
+        "locations": ["Boston, MA"],
+        "referral_type": "EmployeeReferral",
+        "referrer": {
+          "firstName": "John",
+          "lastName": "Smith",
+          "company": {
+            "id": 303,
+            "name": "TechCorp",
+            "domains": ["techcorp.com"]
+          }
+        },
+        "status": "Pending"
+      }
+    ]
+
+- **Get Specific Referral Request**
+
+  - **Endpoint:** `/referrer/referral_requests/{request_id}`
+  - **Method:** `GET`
+  - **Description:** Fetches details of a specific referral request by ID for the authenticated referrer.
+  - **URL Parameters:**
+    - `request_id` (integer): The ID of the referral request.
+  - **Response:**
+    - **Success:** HTTP 200 OK with referral request details.
+    - **Error:**
+      - **HTTP 401 Unauthorized:** Authentication failed or user not authorized.
+      - **HTTP 404 Not Found:** The specified referral request does not exist or is not associated with the referrer.
+      - **HTTP 500 Internal Server Error:** An unexpected error occurred on the server.
+  - **Response Body Example:**
+
+    ```json
+    {
+      "id": 101,
+      "candidate": {
+        "firstName": "Jane",
+        "lastName": "Doe",
+        "workExperience": 5,
+        "resumeUrl": "https://resumes.com/janedoe.pdf"
+      },
+      "company_id": 303,
+      "company": {
+        "id": 303,
+        "name": "TechCorp",
+        "domains": ["techcorp.com"]
+      },
+      "job_title": "Software Engineer",
+      "job_links": [
+        "https://techcorp.com/careers/software-engineer"
+      ],
+      "description": "Looking for a backend engineering role.",
+      "locations": ["Remote", "New York, NY"],
+      "referral_type": "EmployeeReferral",
+      "referrer": {
+        "firstName": "John",
+        "lastName": "Smith",
+        "company": {
+          "id": 303,
+          "name": "TechCorp",
+          "domains": ["techcorp.com"]
+        }
+      },
+      "status": "Pending"
+    }```
+
+### CandidateViewReferralRequest Data Structure
+
+The `CandidateViewReferralRequest` object represents a referral request from the candidate's perspective.
+
+#### Fields:
+
+- `id` (uint64): The ID of the referral request.
+- `candidate` (`CandidateViewCandidate`): Information about the candidate.
+- `company_id` (uint64): The ID of the company.
+- `company` (`GeneralViewCompany`): Basic information about the company.
+- `job_title` (string): The primary job title the candidate is seeking.
+- `job_links` (array of strings): URLs to specific job postings.
+- `description` (string): A summary or description provided by the candidate.
+- `locations` (array of strings): Preferred job locations.
+- `referral_type` (string): The type of referral (e.g., `"EmployeeReferral"`).
+- `referrer` (`CandidateViewCandidate`): Information about the referrer.
+- `status` (string): The current status of the referral request (e.g., `"Pending"`, `"Approved"`, `"Rejected"`).
+
+---
+
+- **Create Referral Request**
+
+  - **Endpoint:** `/candidate/referral_request/create`
+  - **Method:** `POST`
+  - **Description:** Allows a candidate to create a new referral request.
+  - **Request Body:**
+
+    ```json
+    {
+      "company_id": 303,
+      "job_title": "Software Engineer",
+      "job_links": [
+        "https://techcorp.com/careers/software-engineer"
+      ],
+      "description": "Looking for a backend engineering role.",
+      "locations": ["Remote", "New York, NY"],
+      "referral_type": "EmployeeReferral"
+    }```
+
+---
+
+- **Update Referral Request**
+
+  - **Endpoint:** `/candidate/referral_request/update`
+  - **Method:** `PUT`
+  - **Description:** Allows a candidate to update an existing referral request.
+  - **Response:**
+    - **Success:** HTTP 200 OK with the updated referral request details.
+    - **Error:**
+      - **HTTP 400 Bad Request:** Invalid input data.
+      - **HTTP 401 Unauthorized:** Authentication failed or user not authorized.
+      - **HTTP 404 Not Found:** The referral request does not exist or is not associated with the candidate.
+      - **HTTP 500 Internal Server Error:** An unexpected error occurred on the server.
+
+---
+
+- **Delete Referral Request**
+
+  - **Endpoint:** `/candidate/referral_request/delete/{referral_request_id}`
+  - **Method:** `DELETE`
+  - **Description:** Allows a candidate to delete an existing referral request.
+  - **URL Parameters:**
+    - `referral_request_id` (integer): The ID of the referral request to delete.
+  - **Response:**
+    - **Success:** HTTP 204 No Content.
+    - **Error:**
+      - **HTTP 401 Unauthorized:** Authentication failed or user not authorized.
+      - **HTTP 404 Not Found:** The referral request does not exist or is not associated with the candidate.
+      - **HTTP 500 Internal Server Error:** An unexpected error occurred on the server.
+
+---
+
+- **Get All Referral Requests**
+
+  - **Endpoint:** `/candidate/referral_request/get/all`
+  - **Method:** `GET`
+  - **Description:** Retrieves all referral requests associated with the authenticated candidate.
+  - **Response:**
+    - **Success:** HTTP 200 OK with a list of referral requests.
+    - **Error:**
+      - **HTTP 401 Unauthorized:** Authentication failed or user not authorized.
+      - **HTTP 500 Internal Server Error:** An unexpected error occurred on the server.
+
+---
+
+- **Get Specific Referral Request**
+
+  - **Endpoint:** `/candidate/referral_request/get/{referral_request_id}`
+  - **Method:** `GET`
+  - **Description:** Fetches details of a specific referral request by ID for the authenticated candidate.
+  - **URL Parameters:**
+    - `referral_request_id` (integer): The ID of the referral request.
+  - **Response:**
+    - **Success:** HTTP 200 OK with referral request details.
+    - **Error:**
+      - **HTTP 401 Unauthorized:** Authentication failed or user not authorized.
+      - **HTTP 404 Not Found:** The referral request does not exist or is not associated with the candidate.
+      - **HTTP 500 Internal Server Error:** An unexpected error occurred on the server.
+
+---
