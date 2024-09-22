@@ -346,7 +346,8 @@
         }
       },
       "status": "Pending"
-    }```
+    }
+    ```
 
 ### CandidateViewReferralRequest Data Structure
 
@@ -385,7 +386,8 @@ The `CandidateViewReferralRequest` object represents a referral request from the
       "description": "Looking for a backend engineering role.",
       "locations": ["Remote", "New York, NY"],
       "referral_type": "EmployeeReferral"
-    }```
+    }
+    ```
 
 ---
 
