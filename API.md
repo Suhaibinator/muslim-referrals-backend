@@ -167,3 +167,84 @@
   - **Response:**
     - **Success:** HTTP 204 No Content.
     - **Error:** HTTP 401 Unauthorized or HTTP 500 Internal Server Error.
+
+#### **5. Referral Request Management**
+
+- **Get All Referral Requests for Referrer**
+	- **Endpoint:** `/referrer/referral_requests/all`
+	- **Method:** GET
+	- **Description:** Retrieves all referral requests associated with the authenticated referrer.
+	- **Response:**
+	  - **Success:** HTTP 200 OK with a list of referral requests.
+	  - **Error:**
+	    - HTTP 401 Unauthorized: Authentication failed or user not authorized.
+	    - HTTP 500 Internal Server Error: An unexpected error occurred on the server.
+  - **Response Body:**
+    ```json
+    [
+      {
+        "id": 101,
+        "candidate": {
+          "firstName": "Jane",
+          "lastName": "Doe",
+          "workExperience": 5,
+          "resumeUrl": "https://resumes.com/janedoe.pdf"
+        },
+        "company_id": 303,
+        "company": {
+          "id": 303,
+          "name": "TechCorp",
+          "domains": ["techcorp.com"]
+        },
+        "job_title": "Software Engineer",
+        "job_links": [
+          "https://techcorp.com/careers/software-engineer"
+        ],
+        "description": "Looking for a backend engineering role.",
+        "locations": ["Remote", "New York, NY"],
+        "referral_type": "EmployeeReferral",
+        "referrer": {
+          "firstName": "John",
+          "lastName": "Smith",
+          "company": {
+            "id": 303,
+            "name": "TechCorp",
+            "domains": ["techcorp.com"]
+          }
+        },
+        "status": "Pending"
+      },
+      {
+        "id": 102,
+        "candidate": {
+          "firstName": "Alice",
+          "lastName": "Johnson",
+          "workExperience": 3,
+          "resumeUrl": "https://resumes.com/alicejohnson.pdf"
+        },
+        "company_id": 304,
+        "company": {
+          "id": 304,
+          "name": "InnovateX",
+          "domains": ["innovatex.com"]
+        },
+        "job_title": "Product Manager",
+        "job_links": [
+          "https://innovatex.com/careers/product-manager"
+        ],
+        "description": "Passionate about product development.",
+        "locations": ["San Francisco, CA"],
+        "referral_type": "EmployeeReferral",
+        "referrer": {
+          "firstName": "John",
+          "lastName": "Smith",
+          "company": {
+            "id": 303,
+            "name": "TechCorp",
+            "domains": ["techcorp.com"]
+          }
+        },
+        "status": "Approved"
+      }
+    ]
+    ```
