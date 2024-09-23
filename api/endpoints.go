@@ -1,6 +1,7 @@
 package api
 
 import (
+	"log"
 	"muslim-referrals-backend/database"
 	"net/http"
 
@@ -12,8 +13,29 @@ type HttpServer struct {
 	dbDriver *database.DbDriver
 }
 
+// CORS middleware function
+func corsMiddleware(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		// Set CORS headers
+		w.Header().Set("Access-Control-Allow-Origin", "*")
+		w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS")
+		w.Header().Set("Access-Control-Allow-Headers", "Content-Type, Authorization")
+
+		// If it's an OPTIONS request, return 200
+		if r.Method == "OPTIONS" {
+			w.WriteHeader(http.StatusOK)
+			return
+		}
+
+		// Call the next handler
+		next.ServeHTTP(w, r)
+	})
+}
+
 func NewHttpServer(dbd *database.DbDriver) *HttpServer {
 	router := mux.NewRouter() // Create a new mux Router
+
+	router.Use(corsMiddleware) // Use the CORS middleware
 
 	httpServer := &HttpServer{
 		Router:   router,
@@ -85,5 +107,6 @@ func (hs *HttpServer) GetUserIDFromContext(r *http.Request) (uint64, error) {
 
 func (hs *HttpServer) StartServer() {
 	// Start the server on port 8080
+	log.Println("Starting server on port 8080")
 	http.ListenAndServe(":8080", hs.Router)
 }

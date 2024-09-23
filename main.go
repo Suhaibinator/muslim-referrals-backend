@@ -3,8 +3,11 @@ package main
 import (
 	"fmt"
 	"io"
+	"muslim-referrals-backend/api"
 	"muslim-referrals-backend/config"
 	"muslim-referrals-backend/database"
+	"os/signal"
+	"syscall"
 	"time"
 
 	"os"
@@ -14,7 +17,15 @@ import (
 
 func main() {
 
-	stmts, err := gormschema.New("sqlite").Load(&database.User{}, &database.Company{}, &database.Candidate{}, &database.Referrer{}, &database.ReferralRequest{}, &database.ReferralRequestJobLinksAssociation{}, &database.ReferralRequestLocationAssociation{})
+	stmts, err := gormschema.New("sqlite").Load(
+		&database.User{},
+		&database.Company{},
+		&database.Candidate{},
+		&database.Referrer{},
+		&database.ReferralRequest{},
+		&database.ReferralRequestJobLinksAssociation{},
+		&database.ReferralRequestLocationAssociation{},
+	)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "failed to load gorm schema: %v\n", err)
 		os.Exit(1)
@@ -24,11 +35,22 @@ func main() {
 	db := database.NewDbDriver(config.DatabasePath)
 	defer db.CloseDatabase()
 
-	testCreations(db)
+	httpServer := api.NewHttpServer(db)
+	go httpServer.StartServer()
 
-	refReq := db.GetReferralRequestById(1)
+	// Create a channel to receive OS signals
+	sigChan := make(chan os.Signal, 1)
+	signal.Notify(sigChan, syscall.SIGINT, syscall.SIGTERM)
 
-	fmt.Println("Referral Request: ", refReq)
+	// Block until a signal is received
+	sig := <-sigChan
+	fmt.Printf("Received signal: %s. Shutting down...\n", sig)
+
+	// testCreations(db)
+
+	// refReq := db.GetReferralRequestById(1)
+
+	// fmt.Println("Referral Request: ", refReq)
 }
 
 func testCreations(db *database.DbDriver) {
