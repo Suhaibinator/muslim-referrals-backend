@@ -27,5 +27,5 @@ const (
 	NEW_USER_SIGNUP_PATH = "/app/new-user-signup"
 	DEFAULT_LOGIN_PATH   = "/app/"
 
-	Port = "8090"
+	Port = "80"
 )
