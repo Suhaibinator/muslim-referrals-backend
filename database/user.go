@@ -1,5 +1,7 @@
 package database
 
+import "gorm.io/gorm"
+
 func (db *DbDriver) CreateUser(record *User) (*User, error) {
 	record.Id = 0
 	db.mu.Lock()
@@ -40,6 +42,9 @@ func (db *DbDriver) GetUserByEmail(email string) *User {
 	db.mu.RLock()
 	defer db.mu.RUnlock()
 	var user User
-	db.db.Where("email = ?", email).First(&user)
+	result := db.db.Where("email = ?", email).First(&user)
+	if result.Error != nil && result.Error == gorm.ErrRecordNotFound {
+		return nil
+	}
 	return &user
 }
