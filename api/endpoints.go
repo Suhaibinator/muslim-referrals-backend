@@ -1,8 +1,10 @@
 package api
 
 import (
+	"fmt"
 	"log"
 	"muslim-referrals-backend/database"
+	"muslim-referrals-backend/service"
 	"net/http"
 
 	"github.com/gorilla/mux"
@@ -11,6 +13,7 @@ import (
 type HttpServer struct {
 	Router   *mux.Router
 	dbDriver *database.DbDriver
+	service  *service.Service
 }
 
 // CORS middleware function
@@ -32,7 +35,7 @@ func corsMiddleware(next http.Handler) http.Handler {
 	})
 }
 
-func NewHttpServer(dbd *database.DbDriver) *HttpServer {
+func NewHttpServer(service *service.Service, dbd *database.DbDriver) *HttpServer {
 	router := mux.NewRouter() // Create a new mux Router
 
 	router.Use(corsMiddleware) // Use the CORS middleware
@@ -40,6 +43,7 @@ func NewHttpServer(dbd *database.DbDriver) *HttpServer {
 	httpServer := &HttpServer{
 		Router:   router,
 		dbDriver: dbd,
+		service:  service,
 	}
 
 	httpServer.SetupRoutes() // Setup routes with handlers that have access to the DbDriver
@@ -91,22 +95,30 @@ func (hs *HttpServer) setupCandidateRoutes(r *mux.Router) {
 	r.HandleFunc("/candidate/referral_request/get/{referral_request_id}", hs.CandidateGetReferralRequestHandler).Methods("GET")
 }
 
+func (hs *HttpServer) setupLoginRoutes(r *mux.Router) {
+	r.HandleFunc("/login", hs.LoginHandler).Methods("GET")
+}
+
 func (hs *HttpServer) SetupRoutes() {
 	hs.setupUserRoutes(hs.Router)
 	hs.setupCandidateRoutes(hs.Router)
 	hs.setupReferrerRoutes(hs.Router)
+	hs.setupLoginRoutes(hs.Router)
 }
 
 func (hs *HttpServer) GetUserIDFromContext(r *http.Request) (uint64, error) {
 	// Get the user_id from the context
-	//userID := r.Context().Value("user_id").(uint64)
-	//return userID
-	// TODO: Implement this
-	return 1, nil
+	authToken, err := r.Cookie("auth")
+	if err != nil || authToken == nil {
+		return 0, err
+	}
+	authTokenValue := authToken.Value
+	userId, _, err := hs.service.GetUserIdFromTokenDigest(r.Context(), authTokenValue)
+	return userId, err
 }
 
-func (hs *HttpServer) StartServer() {
-	// Start the server on port 8080
-	log.Println("Starting server on port 8080")
-	http.ListenAndServe(":8080", hs.Router)
+func (hs *HttpServer) StartServer(port string) {
+	// Start the server on port
+	log.Printf("Starting server on port %s\n", port)
+	http.ListenAndServe(fmt.Sprintf(":%s", port), hs.Router)
 }

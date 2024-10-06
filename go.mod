@@ -10,6 +10,7 @@ require (
 
 require (
 	ariga.io/atlas-go-sdk v0.5.7 // indirect
+	cloud.google.com/go/compute/metadata v0.3.0 // indirect
 	filippo.io/edwards25519 v1.1.0 // indirect
 	github.com/go-sql-driver/mysql v1.8.1 // indirect
 	github.com/golang-sql/civil v0.0.0-20220223132316-b832511892a9 // indirect
@@ -21,7 +22,7 @@ require (
 	github.com/microsoft/go-mssqldb v1.7.2 // indirect
 	golang.org/x/crypto v0.25.0 // indirect
 	golang.org/x/net v0.27.0 // indirect
-	golang.org/x/sync v0.7.0 // indirect
+	golang.org/x/sync v0.8.0 // indirect
 	golang.org/x/text v0.16.0 // indirect
 	gorm.io/driver/mysql v1.5.7 // indirect
 	gorm.io/driver/postgres v1.5.9 // indirect
@@ -30,7 +31,9 @@ require (
 
 require (
 	github.com/gorilla/mux v1.8.1
+	github.com/jellydator/ttlcache/v3 v3.3.0
 	github.com/jinzhu/inflection v1.0.0 // indirect
 	github.com/jinzhu/now v1.1.5 // indirect
 	github.com/mattn/go-sqlite3 v1.14.22 // indirect
+	golang.org/x/oauth2 v0.23.0
 )

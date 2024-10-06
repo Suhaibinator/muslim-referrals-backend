@@ -6,6 +6,7 @@ import (
 	"muslim-referrals-backend/api"
 	"muslim-referrals-backend/config"
 	"muslim-referrals-backend/database"
+	"muslim-referrals-backend/service"
 	"os/signal"
 	"syscall"
 	"time"
@@ -35,8 +36,10 @@ func main() {
 	db := database.NewDbDriver(config.DatabasePath)
 	defer db.CloseDatabase()
 
-	httpServer := api.NewHttpServer(db)
-	go httpServer.StartServer()
+	service := service.NewService(config.GoogleOauthConfig, db)
+
+	httpServer := api.NewHttpServer(service, db)
+	go httpServer.StartServer(config.Port)
 
 	// Create a channel to receive OS signals
 	sigChan := make(chan os.Signal, 1)
