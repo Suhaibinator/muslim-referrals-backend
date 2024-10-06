@@ -91,10 +91,15 @@ func (hs *HttpServer) setupCandidateRoutes(r *mux.Router) {
 	r.HandleFunc("/candidate/referral_request/get/{referral_request_id}", hs.CandidateGetReferralRequestHandler).Methods("GET")
 }
 
+func (hs *HttpServer) setupLoginRoutes(r *mux.Router) {
+	r.HandleFunc("/login", hs.LoginHandler).Methods("GET")
+}
+
 func (hs *HttpServer) SetupRoutes() {
 	hs.setupUserRoutes(hs.Router)
 	hs.setupCandidateRoutes(hs.Router)
 	hs.setupReferrerRoutes(hs.Router)
+	hs.setupLoginRoutes(hs.Router)
 }
 
 func (hs *HttpServer) GetUserIDFromContext(r *http.Request) (uint64, error) {
