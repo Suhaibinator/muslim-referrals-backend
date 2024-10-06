@@ -22,7 +22,7 @@ require (
 	github.com/microsoft/go-mssqldb v1.7.2 // indirect
 	golang.org/x/crypto v0.25.0 // indirect
 	golang.org/x/net v0.27.0 // indirect
-	golang.org/x/sync v0.7.0 // indirect
+	golang.org/x/sync v0.8.0 // indirect
 	golang.org/x/text v0.16.0 // indirect
 	gorm.io/driver/mysql v1.5.7 // indirect
 	gorm.io/driver/postgres v1.5.9 // indirect
@@ -31,6 +31,7 @@ require (
 
 require (
 	github.com/gorilla/mux v1.8.1
+	github.com/jellydator/ttlcache/v3 v3.3.0
 	github.com/jinzhu/inflection v1.0.0 // indirect
 	github.com/jinzhu/now v1.1.5 // indirect
 	github.com/mattn/go-sqlite3 v1.14.22 // indirect

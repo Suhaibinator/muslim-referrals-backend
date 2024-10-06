@@ -1,6 +1,7 @@
 package database
 
 func (db *DbDriver) CreateUser(record *User) (*User, error) {
+	record.Id = 0
 	db.mu.Lock()
 	defer db.mu.Unlock()
 	if err := db.db.Create(record).Error; err != nil {
@@ -26,5 +27,13 @@ func (db *DbDriver) GetUserById(id uint64) *User {
 	defer db.mu.RUnlock()
 	var user User
 	db.db.First(&user, id)
+	return &user
+}
+
+func (db *DbDriver) GetUserByEmail(email string) *User {
+	db.mu.RLock()
+	defer db.mu.RUnlock()
+	var user User
+	db.db.Where("email = ?", email).First(&user)
 	return &user
 }
