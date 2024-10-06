@@ -52,7 +52,7 @@ func NewHttpServer(service *service.Service, dbd *database.DbDriver) *HttpServer
 }
 
 func (hs *HttpServer) setupUserRoutes(r *mux.Router) {
-	r.HandleFunc("/user/create", hs.UserCreateUserHandler).Methods("POST")
+	r.HandleFunc("/user/update", hs.UserUpdateUserHandler).Methods("PUT")
 
 	// For all these requests, we have access to the user_id
 	r.HandleFunc("/user", hs.UserGetUserHandler).Methods("GET")

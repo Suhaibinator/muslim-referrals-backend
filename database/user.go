@@ -10,10 +10,16 @@ func (db *DbDriver) CreateUser(record *User) (*User, error) {
 	return record, nil
 }
 
-func (db *DbDriver) UpdateUser(record *User) {
+func (db *DbDriver) UpdateUser(record *User) error {
 	db.mu.Lock()
 	defer db.mu.Unlock()
-	db.db.Save(record)
+
+	result := db.db.Save(record)
+	if result.Error != nil {
+		return result.Error
+	}
+
+	return nil
 }
 
 func (db *DbDriver) DeleteUser(record *User) {
