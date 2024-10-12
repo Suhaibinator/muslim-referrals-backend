@@ -2,7 +2,7 @@ package service
 
 import (
 	"context"
-	"encoding/hex"
+	"encoding/base64"
 	"encoding/json"
 	"muslim-referrals-backend/database"
 	"time"
@@ -59,8 +59,8 @@ func (s *Service) GetUserIdFromTokenDigest(ctx context.Context, tokenDigest stri
 
 func (s *Service) queryGoogleForEmail(ctx context.Context, tokenDigest string) (*GoogleUserInfo, error) {
 
-	// Hex decode the token digest into bytes
-	tokenBytes, err := hex.DecodeString(tokenDigest)
+	// B64 decode the token digest into bytes
+	tokenBytes, err := base64.StdEncoding.DecodeString(tokenDigest)
 	if err != nil {
 		return nil, err
 	}

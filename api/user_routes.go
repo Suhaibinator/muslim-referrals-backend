@@ -12,10 +12,19 @@ import (
 	"github.com/gorilla/mux"
 )
 
-// UserCreateUserHandler handles user creation
-func (hs *HttpServer) UserCreateUserHandler(w http.ResponseWriter, r *http.Request) {
-
-	log.Println("Called UserCreateUserHandler")
+// UserUpdateUserHandler handles user creation
+func (hs *HttpServer) UserUpdateUserHandler(w http.ResponseWriter, r *http.Request) {
+	log.Println("Called UserUpdateUserHandler")
+	userId, err := hs.GetUserIDFromContext(r)
+	if err != nil {
+		http.Error(w, "User not authenticated", http.StatusUnauthorized)
+		return
+	}
+	userDbModel := hs.dbDriver.GetUser(userId)
+	if userDbModel == nil {
+		http.Error(w, "User not found", http.StatusNotFound)
+		return
+	}
 
 	requestUser := api_objects.UserViewUser{}
 	// Convert the request body to a UserViewUser object
@@ -24,17 +33,19 @@ func (hs *HttpServer) UserCreateUserHandler(w http.ResponseWriter, r *http.Reque
 		http.Error(w, unmarshalErr.Error(), http.StatusBadRequest)
 		return
 	}
-	requestUser.Id = 0
+	requestUser.Id = userDbModel.Id
+	requestUser.Email = userDbModel.Email
+
 	// Convert the UserViewUser object to a User object
 	user := api_objects.ConvertUserViewUserToUser(requestUser, time.Now(), time.Now(), nil)
 	// Create the user in the database
-	createdUser, userCreationErr := hs.dbDriver.CreateUser(&user)
-	if userCreationErr != nil {
-		http.Error(w, userCreationErr.Error(), http.StatusInternalServerError)
+	userUpdateErr := hs.dbDriver.UpdateUser(&user)
+	if userUpdateErr != nil {
+		http.Error(w, userUpdateErr.Error(), http.StatusInternalServerError)
 		return
 	}
 
-	resultUser := api_objects.ConvertUserToUserViewUser(*createdUser)
+	resultUser := api_objects.ConvertUserToUserViewUser(user)
 
 	response, marshalErr := json.Marshal(resultUser)
 	if marshalErr != nil {

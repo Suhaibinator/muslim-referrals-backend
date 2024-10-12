@@ -6,8 +6,8 @@
 
 #### **1. User Management**
 
-- **Create User**
-  - **Endpoint:** `/user/create`
+- **Update User**
+  - **Endpoint:** `/user/update`
   - **Method:** POST
   - **Description:** Registers a new user in the system.
   - **Request Body:**
@@ -15,7 +15,6 @@
     {
       "firstName": "John",
       "lastName": "Doe",
-      "email": "john.doe@example.com",
       "phoneNumber": "+1234567890",
       "phoneExt": "123",
       "linkedIn": "https://linkedin.com/in/johndoe",
