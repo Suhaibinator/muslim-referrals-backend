@@ -110,6 +110,7 @@ func (hs *HttpServer) GetUserIDFromContext(r *http.Request) (uint64, error) {
 	// Get the user_id from the context
 	authToken, err := r.Cookie("auth")
 	if err != nil || authToken == nil {
+		log.Printf("[GetUserIDFromContext] Error getting auth token: %v\n", err)
 		return 0, err
 	}
 	authTokenValue := authToken.Value
