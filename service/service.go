@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/base64"
 	"encoding/json"
+	"log"
 	"muslim-referrals-backend/database"
 	"time"
 
@@ -35,24 +36,31 @@ func (s *Service) GetTokenFromCode(ctx context.Context, code string) (*oauth2.To
 func (s *Service) GetUserIdFromTokenDigest(ctx context.Context, tokenDigest string) (uint64, bool, error) {
 	result := s.userToIdCache.Get(tokenDigest)
 	if result != nil {
+		log.Printf("[GetUserIdFromTokenDigest] Cache hit for token digest %s", tokenDigest)
 		return result.Value(), false, nil
 	}
+	log.Printf("[GetUserIdFromTokenDigest] Cache miss for token digest %s", tokenDigest)
 
 	userInfo, err := s.queryGoogleForEmail(ctx, tokenDigest)
+	log.Printf("[GetUserIdFromTokenDigest] Got user info: %+v", userInfo)
 	if err != nil {
+		log.Printf("[GetUserIdFromTokenDigest] Error getting user info: %v", err)
 		return 0, true, err
 	}
+
 	newUser := false
 	user := s.dbDriver.GetUserByEmail(userInfo.Email)
 	if user == nil {
 		newUser = true
 		user, err = s.HandleNewUser(ctx, tokenDigest, userInfo)
 		if err != nil {
+			log.Printf("[GetUserIdFromTokenDigest] Error handling new user: %v", err)
 			return 0, newUser, err
 		}
 	}
 
 	s.userToIdCache.Set(tokenDigest, user.Id, ttlcache.DefaultTTL)
+	log.Printf("[GetUserIdFromTokenDigest] Set cache for token digest %s", tokenDigest)
 
 	return user.Id, newUser, nil
 }

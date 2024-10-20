@@ -1,6 +1,7 @@
 package config
 
 import (
+	"log"
 	"os"
 
 	"golang.org/x/oauth2"
@@ -19,12 +20,22 @@ const (
 	Port = "80"
 
 	OAuthRedirectPath     = "/login"
-	OauthRedirectHost     = "https://muslimreferrals.xyz"
 	OauthRedirectHostTest = "http://localhost:3000"
 )
 
+var (
+	OauthRedirectHost = "https://muslimreferrals.xyz"
+)
+
 func init() {
+
+	redirectHostEnvVar := os.Getenv("OAUTH_REDIRECT_HOST") // http://localhost:3000/login or https://muslimreferrals.xyz/login
+	if redirectHostEnvVar != "" {
+		OauthRedirectHost = redirectHostEnvVar
+	}
+
 	DatabasePath = os.Getenv("SQLITE_DB_PATH")
+	log.Println("Google redirect URL: ", os.Getenv("GOOGLE_REDIRECT_URL"))
 	GoogleOauthConfig = &oauth2.Config{
 		RedirectURL:  OauthRedirectHostTest + OAuthRedirectPath,
 		ClientID:     os.Getenv("GOOGLE_CLIENT_ID"),
