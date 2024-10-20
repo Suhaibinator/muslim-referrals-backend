@@ -100,9 +100,12 @@ func (hs *HttpServer) setupLoginRoutes(r *mux.Router) {
 }
 
 func (hs *HttpServer) SetupRoutes() {
-	hs.setupUserRoutes(hs.Router)
-	hs.setupCandidateRoutes(hs.Router)
-	hs.setupReferrerRoutes(hs.Router)
+
+	apiRouter := hs.Router.Path("/api").Subrouter()
+	hs.setupUserRoutes(apiRouter)
+	hs.setupCandidateRoutes(apiRouter)
+	hs.setupReferrerRoutes(apiRouter)
+
 	hs.setupLoginRoutes(hs.Router)
 }
 
