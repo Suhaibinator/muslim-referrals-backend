@@ -101,7 +101,7 @@ func (hs *HttpServer) setupLoginRoutes(r *mux.Router) {
 
 func (hs *HttpServer) SetupRoutes() {
 
-	apiRouter := hs.Router.Path("/api").Subrouter()
+	apiRouter := hs.Router.PathPrefix("/api").Subrouter()
 	hs.setupUserRoutes(apiRouter)
 	hs.setupCandidateRoutes(apiRouter)
 	hs.setupReferrerRoutes(apiRouter)
@@ -124,5 +124,8 @@ func (hs *HttpServer) GetUserIDFromContext(r *http.Request) (uint64, error) {
 func (hs *HttpServer) StartServer(port string) {
 	// Start the server on port
 	log.Printf("Starting server on port %s\n", port)
-	http.ListenAndServe(fmt.Sprintf(":%s", port), hs.Router)
+	err := http.ListenAndServe(fmt.Sprintf(":%s", port), hs.Router)
+	if err != nil {
+		log.Fatalf("Failed to start server: %v\n", err)
+	}
 }
