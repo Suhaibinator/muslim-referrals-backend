@@ -30,3 +30,6 @@ muslim_referrals.db
 
 # Binary
 muslim-referrals-backend
+
+#frontend
+frontend_build/
