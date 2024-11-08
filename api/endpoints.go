@@ -101,12 +101,21 @@ func (hs *HttpServer) setupLoginRoutes(r *mux.Router) {
 
 func (hs *HttpServer) SetupRoutes() {
 
+	// Set up your API routes
 	apiRouter := hs.Router.PathPrefix("/api").Subrouter()
 	hs.setupUserRoutes(apiRouter)
 	hs.setupCandidateRoutes(apiRouter)
 	hs.setupReferrerRoutes(apiRouter)
 
+	// Set up the login route
 	hs.setupLoginRoutes(hs.Router)
+
+	// Serve static files from ./frontend_build for all other routes
+	staticFileDirectory := http.Dir("./frontend_build")
+	staticFileHandler := http.FileServer(staticFileDirectory)
+
+	// This will serve files under ./frontend_build for any route not matched above
+	hs.Router.PathPrefix("/").Handler(staticFileHandler)
 }
 
 func (hs *HttpServer) GetUserIDFromContext(r *http.Request) (uint64, error) {

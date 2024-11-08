@@ -19,8 +19,7 @@ const (
 
 	Port = "80"
 
-	OAuthRedirectPath     = "/login"
-	OauthRedirectHostTest = "http://localhost:3000"
+	OAuthRedirectPath = "/login"
 )
 
 var (
@@ -37,7 +36,7 @@ func init() {
 	DatabasePath = os.Getenv("SQLITE_DB_PATH")
 	log.Println("Google redirect URL: ", os.Getenv("GOOGLE_REDIRECT_URL"))
 	GoogleOauthConfig = &oauth2.Config{
-		RedirectURL:  OauthRedirectHostTest + OAuthRedirectPath,
+		RedirectURL:  OauthRedirectHost + OAuthRedirectPath,
 		ClientID:     os.Getenv("GOOGLE_CLIENT_ID"),
 		ClientSecret: os.Getenv("GOOGLE_CLIENT_SECRET"),
 		Scopes:       []string{"https://www.googleapis.com/auth/userinfo.email", "https://www.googleapis.com/auth/userinfo.profile"},
