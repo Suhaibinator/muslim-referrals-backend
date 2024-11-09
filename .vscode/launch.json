@@ -11,6 +11,14 @@
             "request": "launch",
             "mode": "auto",
             "program": "${workspaceFolder}",
+        },
+        {
+            "name": "Launch Muslim Referrals Backend (secret config)",
+            "envFile": "${workspaceFolder}/.env",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}",
         }
     ]
 }
