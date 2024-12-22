@@ -25,7 +25,7 @@ func (db *DbDriver) UpdateCandidate(userId uint64, record *Candidate) (*Candidat
 	}
 
 	var updatedRecord Candidate
-	if err := db.db.Where("id = ? AND user_id = ?", record.CandidateId, userId).First(&updatedRecord).Error; err != nil {
+	if err := db.db.Where("candidate_id = ? AND user_id = ?", record.CandidateId, userId).First(&updatedRecord).Error; err != nil {
 		return nil, err
 	}
 
@@ -53,7 +53,7 @@ func (db *DbDriver) GetCandidateById(userId, id uint64) *Candidate {
 	defer db.mu.RUnlock()
 
 	var candidate Candidate
-	db.db.Preload("User").Where("id = ? AND user_id = ?", id, userId).First(&candidate)
+	db.db.Preload("User").Where("candidate_id = ? AND user_id = ?", id, userId).First(&candidate)
 	if candidate.CandidateId == 0 {
 		return nil
 	}

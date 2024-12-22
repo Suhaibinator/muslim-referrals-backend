@@ -28,7 +28,7 @@ func (db *DbDriver) UpdateReferrer(userId uint64, record *Referrer) (*Referrer, 
 
 	// Fetch the updated record
 	var updatedRecord Referrer
-	if err := db.db.Where("id = ? AND user_id = ?", record.ReferrerId, userId).First(&updatedRecord).Error; err != nil {
+	if err := db.db.Where("referrer_id = ? AND user_id = ?", record.ReferrerId, userId).First(&updatedRecord).Error; err != nil {
 		return nil, err
 	}
 

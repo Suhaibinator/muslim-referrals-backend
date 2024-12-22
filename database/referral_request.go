@@ -21,7 +21,7 @@ func (db *DbDriver) UpdateReferralRequest(record *ReferralRequest) (*ReferralReq
 
 	// Fetch the updated record
 	var updatedRecord ReferralRequest
-	if err := db.db.Where("id = ?", record.ReferralRequestId).First(&updatedRecord).Error; err != nil {
+	if err := db.db.Where("referral_request_id = ?", record.ReferralRequestId).First(&updatedRecord).Error; err != nil {
 		return nil, err
 	}
 

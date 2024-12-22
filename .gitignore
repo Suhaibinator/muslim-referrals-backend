@@ -34,4 +34,4 @@ muslim-referrals-backend
 #frontend
 frontend_build/
 
-./.secretenv
+.secretenv

@@ -36,7 +36,7 @@ func init() {
 	DatabasePath = os.Getenv("SQLITE_DB_PATH")
 	log.Println("Google redirect URL: ", os.Getenv("GOOGLE_REDIRECT_URL"))
 	GoogleOauthConfig = &oauth2.Config{
-		RedirectURL:  OauthRedirectHost + OAuthRedirectPath,
+		RedirectURL:  os.Getenv("GOOGLE_REDIRECT_URL") + OAuthRedirectPath, // TODO fix this make it more straightforward
 		ClientID:     os.Getenv("GOOGLE_CLIENT_ID"),
 		ClientSecret: os.Getenv("GOOGLE_CLIENT_SECRET"),
 		Scopes:       []string{"https://www.googleapis.com/auth/userinfo.email", "https://www.googleapis.com/auth/userinfo.profile"},

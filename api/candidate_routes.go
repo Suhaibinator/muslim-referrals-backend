@@ -83,7 +83,7 @@ func (hs *HttpServer) CandidateUpdateReferralRequestHandler(w http.ResponseWrite
 	existingRequest := hs.dbDriver.GetReferralRequestById(requestUpdate.ReferralRequestId)
 
 	if existingRequest == nil {
-		http.Error(w, "Referral request not found", http.StatusNotFound)
+		http.Error(w, "Referral request not found", http.StatusInternalServerError)
 		return
 	}
 
@@ -173,7 +173,7 @@ func (hs *HttpServer) CandidateGetReferralRequestHandler(w http.ResponseWriter, 
 
 	referralRequest := hs.dbDriver.GetReferralRequestByIdAndCandidateId(referralRequestID, candidate.CandidateId)
 	if referralRequest == nil {
-		http.Error(w, "Referral request not found or unauthorized", http.StatusNotFound)
+		http.Error(w, "Referral request not found or unauthorized", http.StatusInternalServerError)
 		return
 	}
 

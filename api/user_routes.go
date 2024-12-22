@@ -22,7 +22,7 @@ func (hs *HttpServer) UserUpdateUserHandler(w http.ResponseWriter, r *http.Reque
 	}
 	userDbModel := hs.dbDriver.GetUser(userId)
 	if userDbModel == nil {
-		http.Error(w, "User not found", http.StatusNotFound)
+		http.Error(w, "User not found", http.StatusInternalServerError)
 		return
 	}
 
@@ -69,7 +69,7 @@ func (hs *HttpServer) UserGetUserHandler(w http.ResponseWriter, r *http.Request)
 	// Fetch the user details from the database
 	user := hs.dbDriver.GetUser(userID)
 	if user == nil {
-		http.Error(w, "User not found", http.StatusNotFound)
+		http.Error(w, "User not found", http.StatusInternalServerError)
 		return
 	}
 
@@ -278,7 +278,7 @@ func (hs *HttpServer) UserGetReferrerHandler(w http.ResponseWriter, r *http.Requ
 	// Fetch the referrer details from the database
 	referrer := hs.dbDriver.GetReferrerByUserId(userID)
 	if referrer == nil {
-		http.Error(w, "Referrer not found", http.StatusNotFound)
+		http.Error(w, "Referrer not found", http.StatusInternalServerError)
 		return
 	}
 
@@ -311,7 +311,7 @@ func (hs *HttpServer) UserDeleteReferrerHandler(w http.ResponseWriter, r *http.R
 	// Fetch the referrer details from the database
 	referrer := hs.dbDriver.GetReferrerByUserId(userID)
 	if referrer == nil {
-		http.Error(w, "Referrer not found", http.StatusNotFound)
+		http.Error(w, "Referrer not found", http.StatusInternalServerError)
 		return
 	}
 
@@ -409,7 +409,7 @@ func (hs *HttpServer) UserGetCandidateHandler(w http.ResponseWriter, r *http.Req
 
 	candidate := hs.dbDriver.GetCandidateByUserId(userID)
 	if candidate == nil {
-		http.Error(w, "Candidate not found", http.StatusNotFound)
+		http.Error(w, "Candidate not found", http.StatusInternalServerError)
 		return
 	}
 
@@ -437,7 +437,7 @@ func (hs *HttpServer) UserDeleteCandidateHandler(w http.ResponseWriter, r *http.
 
 	candidate := hs.dbDriver.GetCandidateByUserId(userID)
 	if candidate == nil {
-		http.Error(w, "Candidate not found", http.StatusNotFound)
+		http.Error(w, "Candidate not found", http.StatusInternalServerError)
 		return
 	}
 

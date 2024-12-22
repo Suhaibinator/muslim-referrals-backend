@@ -6,6 +6,7 @@ import (
 	"muslim-referrals-backend/database"
 	"muslim-referrals-backend/service"
 	"net/http"
+	"time"
 
 	"github.com/gorilla/mux"
 )
@@ -51,7 +52,19 @@ func NewHttpServer(service *service.Service, dbd *database.DbDriver) *HttpServer
 	return httpServer
 }
 
+// Logging middleware function
+func loggingMiddleware(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		start := time.Now()
+		log.Printf("Started %s %s", r.Method, r.URL.Path)
+		next.ServeHTTP(w, r)
+		log.Printf("Completed [%s] %s in %v", r.Method, r.URL.Path, time.Since(start))
+	})
+}
+
 func (hs *HttpServer) setupUserRoutes(r *mux.Router) {
+	r.Use(loggingMiddleware)
+
 	r.HandleFunc("/user/update", hs.UserUpdateUserHandler).Methods("PUT")
 
 	// For all these requests, we have access to the user_id
