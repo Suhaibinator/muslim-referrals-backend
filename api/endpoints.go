@@ -56,7 +56,7 @@ func NewHttpServer(service *service.Service, dbd *database.DbDriver) *HttpServer
 func loggingMiddleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		start := time.Now()
-		log.Printf("Started %s %s", r.Method, r.URL.Path)
+		log.Printf("Started %s %s | %s", r.Method, r.URL.Path, r.Header.Get("CF-Connecting-IP"))
 		next.ServeHTTP(w, r)
 		log.Printf("Completed [%s] %s in %v", r.Method, r.URL.Path, time.Since(start))
 	})

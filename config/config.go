@@ -23,7 +23,7 @@ const (
 )
 
 var (
-	OauthRedirectHost = "https://muslimreferrals.xyz"
+	OauthRedirectHost = "https://muslimreferrals.xyz" // default value in case env var isn't set
 )
 
 func init() {
