@@ -26,7 +26,7 @@ func (hs *HttpServer) ReferrerGetAllReferralRequestsHandler(w http.ResponseWrite
 		return
 	}
 
-	referralRequests := hs.dbDriver.GetReferralRequestsByReferrerId(referrer.ReferrerId)
+	referralRequests := hs.dbDriver.GetReferralRequestsByCompanyId(referrer.CompanyId)
 
 	result := make([]api_objects.ReferrerViewReferralRequest, 0)
 
