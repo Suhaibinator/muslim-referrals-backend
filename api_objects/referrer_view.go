@@ -27,6 +27,9 @@ type ReferrerViewReferrer struct {
 }
 
 func ConvertDbReferrerToReferrerViewReferrer(dbReferrer *database.Referrer) *ReferrerViewReferrer {
+	if dbReferrer == nil {
+		return nil
+	}
 	return &ReferrerViewReferrer{
 		FirstName: dbReferrer.User.FirstName,
 		LastName:  dbReferrer.User.LastName,
@@ -44,7 +47,7 @@ type ReferrerViewReferralRequest struct {
 	Summary                string                `json:"description"`
 	Locations              []string              `json:"locations"`
 	ReferralType           string                `json:"referral_type"`
-	ReferrerViewReferrer   ReferrerViewReferrer  `json:"referrer"`
+	ReferrerViewReferrer   *ReferrerViewReferrer `json:"referrer"`
 	Status                 string                `json:"status"`
 }
 
@@ -70,7 +73,7 @@ func ConvertDbReferralRequestToReferrerViewReferralRequest(dbReferralRequest *da
 		Summary:                dbReferralRequest.Summary,
 		Locations:              locations,
 		ReferralType:           string(dbReferralRequest.ReferralType),
-		ReferrerViewReferrer:   *ConvertDbReferrerToReferrerViewReferrer(dbReferralRequest.Referrer),
+		ReferrerViewReferrer:   ConvertDbReferrerToReferrerViewReferrer(dbReferralRequest.Referrer),
 		Status:                 string(dbReferralRequest.Status),
 	}
 }
