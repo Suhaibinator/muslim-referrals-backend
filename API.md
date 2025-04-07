@@ -7,8 +7,8 @@
 #### **1. User Management**
 
 - **Update User**
-  - **Endpoint:** `/user/update`
-  - **Method:** POST
+  - **Endpoint:** `/api/user/update`
+  - **Method:** PUT
   - **Description:** Registers a new user in the system.
   - **Request Body:**
     ```json
@@ -27,7 +27,7 @@
     - **Error:** HTTP 400 Bad Request, HTTP 401 Unauthorized, or HTTP 500 Internal Server Error.
 
 - **Get User**
-  - **Endpoint:** `/user`
+  - **Endpoint:** `/api/user`
   - **Method:** GET
   - **Description:** Retrieves details of the authenticated user, includes `Id` field
   - **Response:**
@@ -37,7 +37,7 @@
 #### **2. Company Management**
 
 - **Create Company**
-  - **Endpoint:** `/user/company/create`
+  - **Endpoint:** `/api/user/company/create`
   - **Method:** POST
   - **Description:** Allows a user to register a new company.
   - **Request Body:**
@@ -52,7 +52,7 @@
     - **Error:** HTTP 400 Bad Request, HTTP 401 Unauthorized, or HTTP 500 Internal Server Error.
 
 - **Get All Companies**
-  - **Endpoint:** `/user/company/get/all`
+  - **Endpoint:** `/api/user/company/get/all`
   - **Method:** GET
   - **Description:** Retrieves all companies associated with the authenticated user.
   - **Response:**
@@ -60,7 +60,7 @@
     - **Error:** HTTP 401 Unauthorized or HTTP 500 Internal Server Error.
 
 - **Get Specific Company**
-  - **Endpoint:** `/user/company/get/{company_id}`
+  - **Endpoint:** `/api/user/company/get/{company_id}`
   - **Method:** GET
   - **Description:** Fetches details of a specific company by ID.
   - **URL Parameters:** `company_id` (integer)
@@ -71,7 +71,7 @@
 #### **3. Referrer Management**
 
 - **Create Referrer**
-  - **Endpoint:** `/user/referrer/create`
+  - **Endpoint:** `/api/user/referrer/create`
   - **Method:** POST
   - **Description:** Registers a user as a referrer.
   - **Request Body:**
@@ -87,7 +87,7 @@
     - **Error:** HTTP 400 Bad Request, HTTP 401 Unauthorized, or HTTP 500 Internal Server Error.
 
 - **Update Referrer Profile**
-  - **Endpoint:** `/user/referrer/update`
+  - **Endpoint:** `/api/user/referrer/update`
   - **Method:** PUT
   - **Description:** Updates details of an existing referrer.
   - **Request Body:**
@@ -102,7 +102,7 @@
     - **Error:** HTTP 400 Bad Request, HTTP 401 Unauthorized, or HTTP 500 Internal Server Error.
 
 - **Get Referrer**
-  - **Endpoint:** `/user/referrer/get`
+  - **Endpoint:** `/api/user/referrer/get`
   - **Method:** GET
   - **Description:** Retrieves details of the authenticated referrer.
   - **Response:**
@@ -110,7 +110,7 @@
     - **Error:** HTTP 401 Unauthorized or HTTP 404 Not Found.
 
 - **Delete Referrer**
-  - **Endpoint:** `/user/referrer/delete`
+  - **Endpoint:** `/api/user/referrer/delete`
   - **Method:** DELETE
   - **Description:** Removes a referrer from the system.
   - **Response:**
@@ -120,7 +120,7 @@
 #### **4. Candidate Management**
 
 - **Create Candidate**
-  - **Endpoint:** `/user/candidate/create`
+  - **Endpoint:** `/api/user/candidate/create`
   - **Method:** POST
   - **Description:** Registers a user as a candidate.
   - **Request Body:**
@@ -136,7 +136,7 @@
     - **Error:** HTTP 400 Bad Request, HTTP 401 Unauthorized, or HTTP 500 Internal Server Error.
 
 - **Update Candidate Profile**
-  - **Endpoint:** `/user/candidate/update`
+  - **Endpoint:** `/api/user/candidate/update`
   - **Method:** PUT
   - **Description:** Updates details of an existing candidate.
   - **Request Body:**
@@ -152,7 +152,7 @@
     - **Error:** HTTP 400 Bad Request, HTTP 401 Unauthorized, or HTTP 500 Internal Server Error.
 
 - **Get Candidate**
-  - **Endpoint:** `/user/candidate/get`
+  - **Endpoint:** `/api/user/candidate/get`
   - **Method:** GET
   - **Description:** Retrieves details of the authenticated candidate.
   - **Response:**
@@ -160,7 +160,7 @@
     - **Error:** HTTP 401 Unauthorized or HTTP 404 Not Found.
 
 - **Delete Candidate**
-  - **Endpoint:** `/user/candidate/delete`
+  - **Endpoint:** `/api/user/candidate/delete`
   - **Method:** DELETE
   - **Description:** Removes a candidate from the system.
   - **Response:**
@@ -170,7 +170,7 @@
 #### **5. Referral Request Management**
 
 - **Get All Referral Requests for Referrer**
-	- **Endpoint:** `/referrer/referral_requests/all`
+	- **Endpoint:** `/api/referrer/referral_requests/all`
 	- **Method:** GET
 	- **Description:** Retrieves all referral requests associated with the authenticated referrer.
 	- **Response:**
@@ -250,7 +250,7 @@
 
 - **Get Referral Requests by Company**
 
-  - **Endpoint:** `/referrer/referral_requests/company/{company_id}`
+  - **Endpoint:** `/api/referrer/referral_requests/company/{company_id}`
   - **Method:** `GET`
   - **Description:** Retrieves all referral requests for a specific company associated with the authenticated referrer.
   - **URL Parameters:**
@@ -301,7 +301,7 @@
 
 - **Get Specific Referral Request**
 
-  - **Endpoint:** `/referrer/referral_requests/{request_id}`
+  - **Endpoint:** `/api/referrer/referral_requests/{request_id}`
   - **Method:** `GET`
   - **Description:** Fetches details of a specific referral request by ID for the authenticated referrer.
   - **URL Parameters:**
@@ -369,7 +369,7 @@ The `CandidateViewReferralRequest` object represents a referral request from the
 
 - **Create Referral Request**
 
-  - **Endpoint:** `/candidate/referral_request/create`
+  - **Endpoint:** `/api/candidate/referral_request/create`
   - **Method:** `POST`
   - **Description:** Allows a candidate to create a new referral request.
   - **Request Body:**
@@ -389,7 +389,7 @@ The `CandidateViewReferralRequest` object represents a referral request from the
 
 - **Update Referral Request**
 
-  - **Endpoint:** `/candidate/referral_request/update`
+  - **Endpoint:** `/api/candidate/referral_request/update`
   - **Method:** `PUT`
   - **Description:** Allows a candidate to update an existing referral request.
   - **Response:**
@@ -402,7 +402,7 @@ The `CandidateViewReferralRequest` object represents a referral request from the
 
 - **Delete Referral Request**
 
-  - **Endpoint:** `/candidate/referral_request/delete/{referral_request_id}`
+  - **Endpoint:** `/api/candidate/referral_request/delete/{referral_request_id}`
   - **Method:** `DELETE`
   - **Description:** Allows a candidate to delete an existing referral request.
   - **URL Parameters:**
@@ -416,7 +416,7 @@ The `CandidateViewReferralRequest` object represents a referral request from the
 
 - **Get All Referral Requests**
 
-  - **Endpoint:** `/candidate/referral_request/get/all`
+  - **Endpoint:** `/api/candidate/referral_request/get/all`
   - **Method:** `GET`
   - **Description:** Retrieves all referral requests associated with the authenticated candidate.
   - **Response:**
@@ -427,7 +427,7 @@ The `CandidateViewReferralRequest` object represents a referral request from the
 
 - **Get Specific Referral Request**
 
-  - **Endpoint:** `/candidate/referral_request/get/{referral_request_id}`
+  - **Endpoint:** `/api/candidate/referral_request/get/{referral_request_id}`
   - **Method:** `GET`
   - **Description:** Fetches details of a specific referral request by ID for the authenticated candidate.
   - **URL Parameters:**
@@ -438,3 +438,48 @@ The `CandidateViewReferralRequest` object represents a referral request from the
       - **HTTP 401 Unauthorized:** Authentication failed or user not authorized.
       - **HTTP 404 Not Found:** The referral request does not exist or is not associated with the candidate.
       - **HTTP 500 Internal Server Error:** An unexpected error occurred on the server.
+
+#### **6. Email Verification**
+
+- **Request Email Verification**
+  - **Endpoint:** `/api/email-verification`
+  - **Method:** POST
+  - **Authentication:** Required (Cookie)
+  - **Description:** Initiates the verification process for a referrer's corporate email address. Sends a verification link/code (implementation detail - currently logs).
+  - **Request Body:**
+    ```json
+    {
+      "email": "user@company.com"
+    }
+    ```
+  - **Response:**
+    - **Success:** HTTP 201 Created with message `{"message": "Verification email request sent successfully."}`.
+    - **Error:**
+      - HTTP 400 Bad Request: Invalid request body or missing email.
+      - HTTP 401 Unauthorized: User not authenticated.
+      - HTTP 409 Conflict: An active verification request already exists for this email address.
+      - HTTP 429 Too Many Requests: User has reached the maximum allowed active verification requests (currently 3).
+      - HTTP 500 Internal Server Error: Failed to process the request (database error, email sending disabled/failed).
+
+- **Verify Email Address**
+  - **Endpoint:** `/api/email-verification/verify/{verification_code}`
+  - **Method:** GET
+  - **Authentication:** Not Required
+  - **Description:** Verifies an email address using the provided code from the verification link. If successful, updates the corresponding referrer's `CorporateEmail`.
+  - **URL Parameters:** `verification_code` (string, UUID format)
+  - **Response:**
+    - **Success:** HTTP 200 OK with message `{"message": "Email verified successfully."}`.
+    - **Error:**
+      - HTTP 400 Bad Request: Verification code missing, expired, or already used/invalid.
+      - HTTP 404 Not Found: Verification code not found in the database.
+      - HTTP 500 Internal Server Error: Failed to process verification or update referrer.
+
+#### **7. Authentication**
+
+- **Login**
+  - **Endpoint:** `/login`
+  - **Method:** GET
+  - **Description:** Initiates the login process (likely redirects to an OAuth provider). The response sets an `auth` cookie upon successful authentication.
+  - **Response:**
+    - **Success:** HTTP 302 Redirect (typically) or sets cookie.
+    - **Error:** Varies depending on the authentication flow.

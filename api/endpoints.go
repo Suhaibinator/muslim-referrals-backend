@@ -112,6 +112,12 @@ func (hs *HttpServer) setupLoginRoutes(r *mux.Router) {
 	r.HandleFunc("/login", hs.LoginHandler).Methods("GET")
 }
 
+func (hs *HttpServer) setupEmailVerificationRoutes(r *mux.Router) {
+	// POST requires auth (handled inside handler), GET does not
+	r.HandleFunc("/email-verification", hs.EmailVerificationRequestHandler).Methods("POST")
+	r.HandleFunc("/email-verification/verify/{verification_code}", hs.EmailVerificationVerifyHandler).Methods("GET")
+}
+
 func (hs *HttpServer) SetupRoutes() {
 
 	// Set up your API routes
@@ -119,6 +125,7 @@ func (hs *HttpServer) SetupRoutes() {
 	hs.setupUserRoutes(apiRouter)
 	hs.setupCandidateRoutes(apiRouter)
 	hs.setupReferrerRoutes(apiRouter)
+	hs.setupEmailVerificationRoutes(apiRouter) // Add email verification routes
 
 	// Set up the login route
 	hs.setupLoginRoutes(hs.Router)

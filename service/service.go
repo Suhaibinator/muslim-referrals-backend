@@ -6,9 +6,11 @@ import (
 	"encoding/json"
 	"log"
 	"muslim-referrals-backend/database"
+	"os"
 	"time"
 
 	"github.com/jellydator/ttlcache/v3"
+	"github.com/resend/resend-go/v2"
 	"golang.org/x/oauth2"
 )
 
@@ -16,16 +18,27 @@ type Service struct {
 	oauthConfig   *oauth2.Config
 	userToIdCache *ttlcache.Cache[string, uint64]
 	dbDriver      *database.DbDriver
+	resendClient  *resend.Client // Added Resend client
 }
 
 func NewService(oauthConfig *oauth2.Config, dbDriver *database.DbDriver) *Service {
 	userToIdCache := ttlcache.New[string, uint64](
 		ttlcache.WithTTL[string, uint64](24 * time.Hour),
 	)
+
+	// Initialize Resend client
+	apiKey := os.Getenv("RESEND_API_KEY")
+	if apiKey == "" {
+		log.Println("WARN: RESEND_API_KEY environment variable not set. Email sending will be disabled.")
+		// Allow service to start without API key for environments where email isn't needed/configured
+	}
+	resendClient := resend.NewClient(apiKey) // Client is usable even if apiKey is "" (calls will fail)
+
 	return &Service{
 		oauthConfig:   oauthConfig,
 		userToIdCache: userToIdCache,
 		dbDriver:      dbDriver,
+		resendClient:  resendClient, // Store the client
 	}
 }
 
