@@ -44,8 +44,6 @@ RUN apk add --no-cache go
 # Copy the compiled Go binary and the Makefile from the build stage
 COPY --from=build /app/myapp /app/muslim_referrals.db /app/.env ./
 
-# Copy the frontend build
-COPY frontend_build ./frontend_build
 
 # Set environment variables from the .env file
 ENV SQLITE_DB_PATH=muslim_referrals.db
