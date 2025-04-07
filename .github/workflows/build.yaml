@@ -9,6 +9,9 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read # Needed to checkout the code
+      packages: write # Needed to push docker image to GitHub Container Registry
 
     steps:
       - uses: actions/checkout@v4
