@@ -34,5 +34,5 @@ jobs:
           context: .
           push: ${{ github.ref == 'refs/heads/main' }} # Only push if on main branch
           tags: |
-            ghcr.io/${{ github.repository }}:latest
-            ghcr.io/${{ github.repository }}:${{ github.sha }}
+            ghcr.io/suhaibinator/muslim-referrals-backend:latest
+            ghcr.io/suhaibinator/muslim-referrals-backend:${{ github.sha }}
