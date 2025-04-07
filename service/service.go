@@ -6,7 +6,6 @@ import (
 	"encoding/json"
 	"log"
 	"muslim-referrals-backend/database"
-	"os"
 	"time"
 
 	"github.com/jellydator/ttlcache/v3"
@@ -14,31 +13,54 @@ import (
 	"golang.org/x/oauth2"
 )
 
+// DatabaseOperations defines the interface for database interactions needed by the service.
+// This allows mocking the database layer for unit tests.
+type DatabaseOperations interface {
+	// Email Verification Methods
+	GetActiveVerificationByEmail(email string) (*database.EmailVerification, error)
+	CountActiveVerificationsForUser(userID uint64) (int64, error)
+	CreateEmailVerification(verification *database.EmailVerification) (*database.EmailVerification, error)
+	UpdateEmailVerification(verification *database.EmailVerification) error
+	GetEmailVerificationByCode(code string) (*database.EmailVerification, error)
+
+	// Referrer Methods
+	GetReferrerByUserId(userID uint64) *database.Referrer
+	UpdateReferrer(userID uint64, referrer *database.Referrer) (*database.Referrer, error)
+
+	// User Methods
+	GetUserByEmail(email string) *database.User
+	CreateUser(user *database.User) (*database.User, error)
+	// Add other DB methods used by the service here...
+}
+
+// EmailSender defines the interface for sending emails, matching resend's EmailsSvc.
+// This allows mocking the email sending functionality.
+type EmailSender interface {
+	Send(params *resend.SendEmailRequest) (*resend.SendEmailResponse, error)
+	// Add other resend.EmailsSvc methods if needed by the service
+}
+
 type Service struct {
 	oauthConfig   *oauth2.Config
 	userToIdCache *ttlcache.Cache[string, uint64]
-	dbDriver      *database.DbDriver
-	resendClient  *resend.Client // Added Resend client
+	dbDriver      DatabaseOperations // Use the interface type
+	emailSender   EmailSender        // Use the interface type (can be resend.EmailsSvc)
 }
 
-func NewService(oauthConfig *oauth2.Config, dbDriver *database.DbDriver) *Service {
+// NewService now accepts interfaces for dependencies, improving testability.
+func NewService(oauthConfig *oauth2.Config, dbDriver DatabaseOperations, emailSender EmailSender) *Service {
 	userToIdCache := ttlcache.New[string, uint64](
 		ttlcache.WithTTL[string, uint64](24 * time.Hour),
 	)
 
-	// Initialize Resend client
-	apiKey := os.Getenv("RESEND_API_KEY")
-	if apiKey == "" {
-		log.Println("WARN: RESEND_API_KEY environment variable not set. Email sending will be disabled.")
-		// Allow service to start without API key for environments where email isn't needed/configured
-	}
-	resendClient := resend.NewClient(apiKey) // Client is usable even if apiKey is "" (calls will fail)
+	// Dependencies (dbDriver, emailSender) are now injected.
+	// No need to initialize Resend client here; it's passed in.
 
 	return &Service{
 		oauthConfig:   oauthConfig,
 		userToIdCache: userToIdCache,
-		dbDriver:      dbDriver,
-		resendClient:  resendClient, // Store the client
+		dbDriver:      dbDriver,    // Assign injected DB interface
+		emailSender:   emailSender, // Assign injected email sender interface
 	}
 }
 

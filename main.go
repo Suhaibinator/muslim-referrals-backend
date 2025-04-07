@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"io"
+	"log" // Added log import
 	"muslim-referrals-backend/api"
 	"muslim-referrals-backend/config"
 	"muslim-referrals-backend/database"
@@ -14,6 +15,7 @@ import (
 	"os"
 
 	"ariga.io/atlas-provider-gorm/gormschema"
+	"github.com/resend/resend-go/v2" // Added Resend import
 )
 
 func main() {
@@ -36,7 +38,16 @@ func main() {
 	db := database.NewDbDriver(config.DatabasePath)
 	defer db.CloseDatabase()
 
-	service := service.NewService(config.GoogleOauthConfig, db)
+	// Initialize Resend client
+	apiKey := os.Getenv("RESEND_API_KEY")
+	if apiKey == "" {
+		log.Println("WARN: RESEND_API_KEY environment variable not set. Email sending will be disabled.")
+		// Allow service to start without API key for environments where email isn't needed/configured
+	}
+	resendClient := resend.NewClient(apiKey) // Client is usable even if apiKey is "" (calls will fail)
+
+	// Pass the db driver (which satisfies DatabaseOperations) and the resend client (which satisfies EmailSender)
+	service := service.NewService(config.GoogleOauthConfig, db, resendClient.Emails) // Pass resendClient.Emails which implements EmailsSvc
 
 	httpServer := api.NewHttpServer(service, db)
 	go httpServer.StartServer(config.Port)

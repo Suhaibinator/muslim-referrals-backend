@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"log"
 	"muslim-referrals-backend/database"
-	"os"
 	"time"
 
 	"github.com/google/uuid"
@@ -84,11 +83,17 @@ func (s *Service) createVerificationRecord(userID uint64, emailToVerify string) 
 
 // sendVerificationEmail handles the construction and sending of the email via Resend.
 func (s *Service) sendVerificationEmail(verification *database.EmailVerification) error {
-	// Check if API key is configured
-	if os.Getenv("RESEND_API_KEY") == "" {
-		log.Printf("WARN: Resend API key not set. Skipping email send for verification %s.", verification.ID)
+	// Check if the email sender interface is nil (meaning sending is disabled)
+	if s.emailSender == nil {
+		log.Printf("WARN: Email sender not configured. Skipping email send for verification %s.", verification.ID)
 		return ErrEmailSendingDisabled
 	}
+
+	// Optional: Keep the API key check as a secondary defense, though injection is preferred.
+	// if os.Getenv("RESEND_API_KEY") == "" {
+	// 	log.Printf("WARN: Resend API key not set (env var). Skipping email send for verification %s.", verification.ID)
+	// 	return ErrEmailSendingDisabled
+	// }
 
 	verificationLink := fmt.Sprintf("%s/api/email-verification/verify/%s", verificationBaseURL, verification.VerificationCode)
 	subject := "Verify Your Email Address"
@@ -107,7 +112,8 @@ func (s *Service) sendVerificationEmail(verification *database.EmailVerification
 		Html:    htmlBody,
 	}
 
-	sent, err := s.resendClient.Emails.Send(params)
+	// Use the injected emailSender interface
+	sent, err := s.emailSender.Send(params)
 	if err != nil {
 		log.Printf("ERROR sending verification email via Resend for verification ID %s (User: %d, Email: %s): %v",
 			verification.ID, verification.UserID, verification.Email, err)
