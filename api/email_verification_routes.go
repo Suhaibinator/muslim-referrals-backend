@@ -3,8 +3,8 @@ package api
 import (
 	"encoding/json"
 	"errors"
+	"github.com/Suhaibinator/muslim-referrals-backend/service"
 	"log"
-	"muslim-referrals-backend/service"
 	"net/http"
 
 	"github.com/gorilla/mux"

@@ -1,4 +1,4 @@
-module muslim-referrals-backend
+module github.com/Suhaibinator/muslim-referrals-backend
 
 go 1.23.0
 

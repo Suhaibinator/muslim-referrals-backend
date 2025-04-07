@@ -2,7 +2,7 @@ package api
 
 import (
 	"fmt"
-	"muslim-referrals-backend/config"
+	"github.com/Suhaibinator/muslim-referrals-backend/config"
 	"net/http"
 
 	"encoding/base64"

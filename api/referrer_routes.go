@@ -2,8 +2,8 @@ package api
 
 import (
 	"encoding/json"
+	"github.com/Suhaibinator/muslim-referrals-backend/api_objects"
 	"log"
-	"muslim-referrals-backend/api_objects"
 	"net/http"
 	"strconv"
 

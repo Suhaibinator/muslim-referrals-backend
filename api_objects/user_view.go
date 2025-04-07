@@ -1,8 +1,9 @@
 package api_objects
 
 import (
-	"muslim-referrals-backend/database"
 	"time"
+
+	"github.com/Suhaibinator/muslim-referrals-backend/database"
 )
 
 // UserView represents the fields that the user will be able to see

@@ -1,7 +1,7 @@
 package api_objects
 
 import (
-	"muslim-referrals-backend/database"
+	"github.com/Suhaibinator/muslim-referrals-backend/database"
 	"time"
 )
 

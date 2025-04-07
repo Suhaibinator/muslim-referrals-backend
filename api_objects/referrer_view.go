@@ -1,6 +1,6 @@
 package api_objects
 
-import "muslim-referrals-backend/database"
+import "github.com/Suhaibinator/muslim-referrals-backend/database"
 
 // ReferrerView represents the fields that the referrer will be able to see
 

@@ -4,13 +4,14 @@ import (
 	"fmt"
 	"io"
 	"log" // Added log import
-	"muslim-referrals-backend/api"
-	"muslim-referrals-backend/config"
-	"muslim-referrals-backend/database"
-	"muslim-referrals-backend/service"
 	"os/signal"
 	"syscall"
 	"time"
+
+	"github.com/Suhaibinator/muslim-referrals-backend/api"
+	"github.com/Suhaibinator/muslim-referrals-backend/config"
+	"github.com/Suhaibinator/muslim-referrals-backend/database"
+	"github.com/Suhaibinator/muslim-referrals-backend/service"
 
 	"os"
 

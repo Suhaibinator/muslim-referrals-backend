@@ -4,8 +4,9 @@ import (
 	"errors"
 	"fmt"
 	"log"
-	"muslim-referrals-backend/database"
 	"time"
+
+	"github.com/Suhaibinator/muslim-referrals-backend/database"
 
 	"github.com/google/uuid"
 	"github.com/resend/resend-go/v2" // Added Resend import

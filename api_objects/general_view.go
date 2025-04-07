@@ -1,6 +1,6 @@
 package api_objects
 
-import "muslim-referrals-backend/database"
+import "github.com/Suhaibinator/muslim-referrals-backend/database"
 
 // GeneralView represents the fields that the general user will be able to see
 

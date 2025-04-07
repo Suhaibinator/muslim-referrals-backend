@@ -5,8 +5,9 @@ import (
 	"encoding/base64"
 	"encoding/json"
 	"log"
-	"muslim-referrals-backend/database"
 	"time"
+
+	"github.com/Suhaibinator/muslim-referrals-backend/database"
 
 	"github.com/jellydator/ttlcache/v3"
 	"github.com/resend/resend-go/v2"

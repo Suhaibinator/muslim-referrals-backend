@@ -2,7 +2,8 @@ package service
 
 import (
 	"context"
-	"muslim-referrals-backend/database"
+
+	"github.com/Suhaibinator/muslim-referrals-backend/database"
 
 	"github.com/jellydator/ttlcache/v3"
 )

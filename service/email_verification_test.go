@@ -3,11 +3,12 @@ package service_test
 import (
 	"errors"
 	"fmt"
-	"muslim-referrals-backend/database"
-	"muslim-referrals-backend/service"
 	"os"
 	"testing"
 	"time"
+
+	"github.com/Suhaibinator/muslim-referrals-backend/database"
+	"github.com/Suhaibinator/muslim-referrals-backend/service"
 
 	"github.com/google/uuid"
 	"github.com/resend/resend-go/v2"

@@ -2,9 +2,9 @@ package api
 
 import (
 	"fmt"
+	"github.com/Suhaibinator/muslim-referrals-backend/database"
+	"github.com/Suhaibinator/muslim-referrals-backend/service"
 	"log"
-	"muslim-referrals-backend/database"
-	"muslim-referrals-backend/service"
 	"net/http"
 	"time"
 
