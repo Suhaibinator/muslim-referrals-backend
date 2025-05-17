@@ -6,6 +6,7 @@ import (
 	"github.com/Suhaibinator/muslim-referrals-backend/service"
 	"log"
 	"net/http"
+	"net/mail"
 
 	"github.com/gorilla/mux"
 )
@@ -36,7 +37,10 @@ func (hs *HttpServer) EmailVerificationRequestHandler(w http.ResponseWriter, r *
 		return
 	}
 
-	// TODO: Add validation to check if the email format is valid
+	if _, err := mail.ParseAddress(payload.Email); err != nil {
+		http.Error(w, "Invalid email format", http.StatusBadRequest)
+		return
+	}
 
 	err = hs.service.RequestEmailVerification(userID, payload.Email)
 	if err != nil {
