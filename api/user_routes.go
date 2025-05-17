@@ -322,7 +322,8 @@ func (hs *HttpServer) UserDeleteReferrerHandler(w http.ResponseWriter, r *http.R
 		return
 	}
 
-	w.Write([]byte("Referrer deleted successfully"))
+	// Indicate successful deletion with no content to return
+	w.WriteHeader(http.StatusNoContent)
 }
 
 // UserCreateCandidateHandler handles creating a candidate
