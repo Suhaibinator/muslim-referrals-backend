@@ -9,7 +9,7 @@
 - **Update User**
   - **Endpoint:** `/api/user/update`
   - **Method:** PUT
-  - **Description:** Registers a new user in the system.
+  - **Description:** Updates the profile of the authenticated user.
   - **Request Body:**
     ```json
     {
