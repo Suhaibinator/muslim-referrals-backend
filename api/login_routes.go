@@ -1,7 +1,6 @@
 package api
 
 import (
-	"fmt"
 	"github.com/Suhaibinator/muslim-referrals-backend/config"
 	"net/http"
 
@@ -44,15 +43,15 @@ func (hs *HttpServer) LoginHandler(w http.ResponseWriter, r *http.Request) {
 		redirectPath = config.DEFAULT_LOGIN_PATH
 	}
 
-	// Generate JavaScript to set the auth cookie and redirect
-	js := fmt.Sprintf(`
-        <script>
-            document.cookie = "auth=%s";
-            window.location.href = "%s";
-        </script>
-    `, base64Token, redirectPath)
+	// Set the auth cookie securely and redirect the user
+	http.SetCookie(w, &http.Cookie{
+		Name:     "auth",
+		Value:    base64Token,
+		Path:     "/",
+		HttpOnly: true,
+		Secure:   true,
+		SameSite: http.SameSiteLaxMode,
+	})
 
-	// Respond with the JavaScript
-	w.Header().Set("Content-Type", "text/html")
-	w.Write([]byte(js))
+	http.Redirect(w, r, redirectPath, http.StatusFound)
 }
