@@ -74,10 +74,10 @@
   - **Endpoint:** `/api/user/referrer/create`
   - **Method:** POST
   - **Description:** Registers a user as a referrer.
+  - **Note:** The user ID comes from the authenticated session.
   - **Request Body:**
     ```json
     {
-      "userId": 123,
       "companyId": 456,
       "corporateEmail": "john.doe@newco.com"
     }
@@ -123,10 +123,10 @@
   - **Endpoint:** `/api/user/candidate/create`
   - **Method:** POST
   - **Description:** Registers a user as a candidate.
+  - **Note:** The user ID comes from the authenticated session.
   - **Request Body:**
     ```json
     {
-      "userId": 123,
       "workExperience": 5,
       "resumeUrl": "https://resumes.com/johndoe.pdf"
     }
