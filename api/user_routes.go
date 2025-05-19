@@ -166,6 +166,10 @@ func (hs *HttpServer) UserGetCompanyHandler(w http.ResponseWriter, r *http.Reque
 	}
 
 	company := hs.dbDriver.GetCompanyById(companyID)
+	if company == nil || company.Id == 0 {
+		http.Error(w, "Company not found", http.StatusNotFound)
+		return
+	}
 
 	response, err := json.Marshal(company)
 	if err != nil {
@@ -277,8 +281,8 @@ func (hs *HttpServer) UserGetReferrerHandler(w http.ResponseWriter, r *http.Requ
 
 	// Fetch the referrer details from the database
 	referrer := hs.dbDriver.GetReferrerByUserId(userID)
-	if referrer == nil {
-		http.Error(w, "Referrer not found", http.StatusInternalServerError)
+	if referrer == nil || referrer.ReferrerId == 0 {
+		http.Error(w, "Referrer not found", http.StatusNotFound)
 		return
 	}
 
@@ -409,8 +413,8 @@ func (hs *HttpServer) UserGetCandidateHandler(w http.ResponseWriter, r *http.Req
 	}
 
 	candidate := hs.dbDriver.GetCandidateByUserId(userID)
-	if candidate == nil {
-		http.Error(w, "Candidate not found", http.StatusInternalServerError)
+	if candidate == nil || candidate.CandidateId == 0 {
+		http.Error(w, "Candidate not found", http.StatusNotFound)
 		return
 	}
 

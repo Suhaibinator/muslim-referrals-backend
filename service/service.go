@@ -48,6 +48,11 @@ type Service struct {
 	emailSender   EmailSender        // Use the interface type (can be resend.EmailsSvc)
 }
 
+// SetUserIDForToken allows tests to seed the cache with a token to user ID mapping.
+func (s *Service) SetUserIDForToken(token string, userID uint64) {
+	s.userToIdCache.Set(token, userID, ttlcache.DefaultTTL)
+}
+
 // NewService now accepts interfaces for dependencies, improving testability.
 func NewService(oauthConfig *oauth2.Config, dbDriver DatabaseOperations, emailSender EmailSender) *Service {
 	userToIdCache := ttlcache.New[string, uint64](
